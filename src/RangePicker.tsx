@@ -223,6 +223,16 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
     return [disabled || false, disabled || false];
   }, [disabled]);
 
+  function focusInput(index: 0 | 1) {
+    // Delay to focus to avoid input blur trigger expired selectedValues
+    setTimeout(() => {
+      const inputRef = [startInputRef, endInputRef][index];
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
+  }
+
   // ============================= Value =============================
   const [mergedValue, setInnerValue] = useMergedState<RangeValue<DateType>>(null, {
     value,
@@ -401,12 +411,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
       }
 
       // Delay to focus to avoid input blur trigger expired selectedValues
-      setTimeout(() => {
-        const inputRef = [startInputRef, endInputRef][missingValueIndex];
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      }, 0);
+      focusInput(missingValueIndex);
     }
   };
 
@@ -563,6 +568,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
   }
 
   // ============================ Private ============================
+  // Pass focus control to parent wrapper class
   if (pickerRef) {
     pickerRef.current = {
       focus: () => {
@@ -870,6 +876,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
     if (picker === 'time') {
       valueIndex = panelPosition === 'left' ? 0 : 1;
       setMergedActivePickerIndex(valueIndex);
+      focusInput(valueIndex);
     }
 
     const values = updateValues(selectedValue, date, valueIndex);
