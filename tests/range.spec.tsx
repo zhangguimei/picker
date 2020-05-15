@@ -1028,6 +1028,8 @@ describe('Picker.Range', () => {
         );
         wrapper.openPicker();
         wrapper
+          .find('.rc-picker-panel')
+          .first()
           .find('ul')
           .first()
           .find('li')
@@ -1036,6 +1038,8 @@ describe('Picker.Range', () => {
         wrapper.find('.rc-picker-ok button').simulate('click');
 
         wrapper
+          .find('.rc-picker-panel')
+          .last()
           .find('ul')
           .first()
           .find('li')
