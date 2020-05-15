@@ -238,7 +238,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
   const [mergedValue, setInnerValue] = useMergedState<RangeValue<DateType>>(null, {
     value,
     defaultValue,
-    postState: (values) =>
+    postState: values =>
       picker === 'time' && !order ? values : reorderValues(values, generateConfig),
   });
 
@@ -253,7 +253,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
 
   // ========================= Select Values =========================
   const [selectedValue, setSelectedValue] = useMergedState(mergedValue, {
-    postState: (values) => {
+    postState: values => {
       let postValues = values;
 
       if (mergedDisabled[0] && mergedDisabled[1]) {
@@ -313,8 +313,8 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
   const [mergedOpen, triggerInnerOpen] = useMergedState(false, {
     value: open,
     defaultValue: defaultOpen,
-    postState: (postOpen) => (mergedDisabled[mergedActivePickerIndex] ? false : postOpen),
-    onChange: (newOpen) => {
+    postState: postOpen => (mergedDisabled[mergedActivePickerIndex] ? false : postOpen),
+    onChange: newOpen => {
       if (onOpenChange) {
         onOpenChange(newOpen);
       }
@@ -474,12 +474,12 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
 
   const [startText, triggerStartTextChange, resetStartText] = useTextValueMapping<DateType>({
     valueTexts: startValueTexts,
-    onTextChange: (newText) => onTextChange(newText, 0),
+    onTextChange: newText => onTextChange(newText, 0),
   });
 
   const [endText, triggerEndTextChange, resetEndText] = useTextValueMapping<DateType>({
     valueTexts: endValueTexts,
-    onTextChange: (newText) => onTextChange(newText, 1),
+    onTextChange: newText => onTextChange(newText, 1),
   });
 
   // ============================= Input =============================
@@ -591,7 +591,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
   // ============================ Ranges =============================
   const rangeLabels = Object.keys(ranges || {});
 
-  const rangeList = rangeLabels.map((label) => {
+  const rangeList = rangeLabels.map(label => {
     const range = ranges![label];
     const newValues = typeof range === 'function' ? range() : range;
 
@@ -662,7 +662,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
           style={undefined}
           direction={direction}
           disabledDate={mergedActivePickerIndex === 0 ? disabledStartDate : disabledEndDate}
-          disabledTime={(date) => {
+          disabledTime={date => {
             if (disabledTime) {
               return disabledTime(date, mergedActivePickerIndex === 0 ? 'start' : 'end');
             }
@@ -748,13 +748,13 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
       const showDoublePanel = currentMode === picker;
       const leftPanel = renderPanel(showDoublePanel ? 'left' : false, {
         pickerValue: viewDate,
-        onPickerValueChange: (newViewDate) => {
+        onPickerValueChange: newViewDate => {
           setViewDate(newViewDate, mergedActivePickerIndex);
         },
       });
       const rightPanel = renderPanel('right', {
         pickerValue: nextViewDate,
-        onPickerValueChange: (newViewDate) => {
+        onPickerValueChange: newViewDate => {
           setViewDate(
             getClosingViewDate(newViewDate, picker, generateConfig, -1),
             mergedActivePickerIndex,
@@ -786,7 +786,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
         className={`${prefixCls}-panel-container`}
         style={{ marginLeft: panelLeft }}
         ref={panelDivRef}
-        onMouseDown={(e) => {
+        onMouseDown={e => {
           e.preventDefault();
         }}
       >
@@ -826,11 +826,11 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
   ) {
     clearNode = (
       <span
-        onMouseDown={(e) => {
+        onMouseDown={e => {
           e.preventDefault();
           e.stopPropagation();
         }}
-        onMouseUp={(e) => {
+        onMouseUp={e => {
           e.preventDefault();
           e.stopPropagation();
           let values = mergedValue;
@@ -936,7 +936,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
               disabled={mergedDisabled[0]}
               readOnly={inputReadOnly || !startTyping}
               value={startText}
-              onChange={(e) => {
+              onChange={e => {
                 triggerStartTextChange(e.target.value);
               }}
               autoFocus={autoFocus}
@@ -961,7 +961,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
               disabled={mergedDisabled[1]}
               readOnly={inputReadOnly || !endTyping}
               value={endText}
-              onChange={(e) => {
+              onChange={e => {
                 triggerEndTextChange(e.target.value);
               }}
               placeholder={getValue(placeholder, 1) || ''}
