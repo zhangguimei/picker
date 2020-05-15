@@ -866,9 +866,10 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
     type: 'key' | 'mouse' | 'submit',
     panelPosition?: PanelPosition,
   ) => {
-    let valueIndex: number = mergedActivePickerIndex;
+    let valueIndex: 0 | 1 = mergedActivePickerIndex;
     if (picker === 'time') {
       valueIndex = panelPosition === 'left' ? 0 : 1;
+      setMergedActivePickerIndex(valueIndex);
     }
 
     const values = updateValues(selectedValue, date, valueIndex);
