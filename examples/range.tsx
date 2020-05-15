@@ -14,14 +14,12 @@ function formatDate(date: Moment | null) {
 }
 
 export default () => {
-  const [value, setValue] = React.useState<
-    [Moment | null, Moment | null] | null
-  >([defaultStartValue, defaultEndValue]);
+  const [value, setValue] = React.useState<[Moment | null, Moment | null] | null>([
+    defaultStartValue,
+    defaultEndValue,
+  ]);
 
-  const onChange = (
-    newValue: [Moment | null, Moment | null] | null,
-    formatStrings?: string[],
-  ) => {
+  const onChange = (newValue: [Moment | null, Moment | null] | null, formatStrings?: string[]) => {
     console.log('Change:', newValue, formatStrings);
     setValue(newValue);
   };
@@ -44,23 +42,29 @@ export default () => {
 
   return (
     <div>
-      <h2>
-        Value:{' '}
-        {value ? `${formatDate(value[0])} ~ ${formatDate(value[1])}` : 'null'}
-      </h2>
+      <h2>Value: {value ? `${formatDate(value[0])} ~ ${formatDate(value[1])}` : 'null'}</h2>
 
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <div style={{ margin: '0 8px' }}>
           <h3>Basic</h3>
-          <RangePicker<Moment>
+          {/* <RangePicker<Moment>
             {...sharedProps}
             value={undefined}
             locale={zhCN}
             allowClear
             ref={rangePickerRef}
             defaultValue={[moment('1990-09-03'), moment('1989-11-28')]}
-          />
+          /> */}
           <RangePicker<Moment>
+            {...sharedProps}
+            picker="time"
+            value={undefined}
+            locale={zhCN}
+            allowClear
+            ref={rangePickerRef}
+            // defaultValue={[moment('1990-09-03'), moment('1989-11-28')]}
+          />
+          {/* <RangePicker<Moment>
             {...sharedProps}
             locale={zhCN}
             allowClear
@@ -83,10 +87,10 @@ export default () => {
             ranges={{
               test: [moment(), moment().add(1, 'hour')],
             }}
-          />
+          /> */}
         </div>
 
-        <div style={{ margin: '0 8px' }}>
+        {/* <div style={{ margin: '0 8px' }}>
           <h3>Focus</h3>
           <RangePicker<Moment>
             {...sharedProps}
@@ -160,7 +164,7 @@ export default () => {
             allowEmpty={[false, true]}
             renderExtraFooter={() => <div>extra footer</div>}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -623,6 +623,13 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
       };
     }
 
+    let panelValue: DateType;
+    if (picker === 'time') {
+      panelValue = getValue(selectedValue, panelPosition === 'left' ? 0 : 1);
+    } else {
+      panelValue = getValue(selectedValue, mergedActivePickerIndex);
+    }
+
     return (
       <RangeContext.Provider
         value={{
@@ -651,7 +658,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
             [`${prefixCls}-panel-focused`]:
               mergedActivePickerIndex === 0 ? !startTyping : !endTyping,
           })}
-          value={getValue(selectedValue, mergedActivePickerIndex)}
+          value={panelValue}
           locale={locale}
           tabIndex={-1}
           onPanelChange={(date, newMode) => {
@@ -719,7 +726,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
       },
     });
 
-    if (picker !== 'time' && !showTime) {
+    if (!showTime) {
       const viewDate = getViewDate(mergedActivePickerIndex);
       const nextViewDate = getClosingViewDate(viewDate, picker, generateConfig);
       const currentMode = mergedModes[mergedActivePickerIndex];
