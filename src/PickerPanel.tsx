@@ -244,7 +244,7 @@ function PickerPanel<DateType>(props: PickerPanelProps<DateType>) {
       }
 
       if (onContextSelect) {
-        onContextSelect(date, type);
+        onContextSelect(date, type, panelPosition);
       }
 
       if (onChange && !isEqual(generateConfig, date, mergedValue)) {

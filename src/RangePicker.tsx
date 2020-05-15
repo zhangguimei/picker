@@ -2,7 +2,14 @@ import * as React from 'react';
 import classNames from 'classnames';
 import warning from 'rc-util/lib/warning';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import { DisabledTimes, PanelMode, PickerMode, RangeValue, EventValue } from './interface';
+import {
+  DisabledTimes,
+  PanelMode,
+  PickerMode,
+  RangeValue,
+  EventValue,
+  PanelPosition,
+} from './interface';
 import { PickerBaseProps, PickerDateProps, PickerTimeProps, PickerRefConfig } from './Picker';
 import { SharedTimeProps } from './panels/TimePanel';
 import PickerTrigger from './PickerTrigger';
@@ -597,7 +604,7 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
 
   // ============================= Panel =============================
   function renderPanel(
-    panelPosition: 'left' | 'right' | false = false,
+    panelPosition: PanelPosition = false,
     panelProps: Partial<PickerPanelProps<DateType>> = {},
   ) {
     let panelHoverRangedValue: RangeValue<DateType> = null;
@@ -854,8 +861,17 @@ function InnerRangePicker<DateType>(props: RangePickerProps<DateType>) {
   const activeBarPositionStyle =
     direction === 'rtl' ? { right: activeBarLeft } : { left: activeBarLeft };
   // ============================ Return =============================
-  const onContextSelect = (date: DateType, type: 'key' | 'mouse' | 'submit') => {
-    const values = updateValues(selectedValue, date, mergedActivePickerIndex);
+  const onContextSelect = (
+    date: DateType,
+    type: 'key' | 'mouse' | 'submit',
+    panelPosition?: PanelPosition,
+  ) => {
+    let valueIndex: number = mergedActivePickerIndex;
+    if (picker === 'time') {
+      valueIndex = panelPosition === 'left' ? 0 : 1;
+    }
+
+    const values = updateValues(selectedValue, date, valueIndex);
 
     if (type === 'submit' || (type !== 'key' && !needConfirmButton)) {
       // triggerChange will also update selected values

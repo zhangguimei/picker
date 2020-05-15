@@ -44,6 +44,8 @@ export type PanelMode = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year' 
 
 export type PickerMode = Exclude<PanelMode, 'datetime' | 'decade'>;
 
+export type PanelPosition = 'left' | 'right' | false;
+
 export interface PanelRefProps {
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => boolean;
   onBlur?: React.FocusEventHandler<HTMLElement>;
@@ -52,7 +54,11 @@ export interface PanelRefProps {
 
 export type NullableDateType<DateType> = DateType | null | undefined;
 
-export type OnSelect<DateType> = (value: DateType, type: 'key' | 'mouse' | 'submit') => void;
+export type OnSelect<DateType> = (
+  value: DateType,
+  type: 'key' | 'mouse' | 'submit',
+  panelPosition?: PanelPosition,
+) => void;
 
 export interface PanelSharedProps<DateType> {
   prefixCls: string;
